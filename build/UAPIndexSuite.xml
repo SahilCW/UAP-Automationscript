@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name='UAP Automation suite'>
+    
+<!-- 	Put IP of localhost/Grid Hub machine -->
+	 <parameter name='selenium.host' value='localhost' /> 
+
+<!-- 	Put Port of localhost RC/Grid Hub machine -->
+	 <parameter name='selenium.port' value='4444' />
+	 <parameter name='browser' value="chrome" />
+	 <parameter name ='env' value='qa'/>
+
+   <test name='UAP login user'>
+		<classes>
+			<class name='com.capitaworld.verifications.UserManagement'>
+				<methods>
+					<include name='testuser'></include>
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>
