@@ -10,11 +10,15 @@
 	 <parameter name='browser' value="chrome" />
 	 <parameter name ='env' value='qa'/>
 
-   <test name='UAP login user'>
+	<listeners>
+		<listener class-name='com.capitaworld.report.MyReporterListener'/>
+	</listeners>
+
+	<test name='Validation Check'>
 		<classes>
 			<class name='com.capitaworld.verifications.UserManagement'>
 				<methods>
-					<include name='testuser'></include>
+					<include name='validationCheck'></include>
 				</methods>
 			</class>
 		</classes>

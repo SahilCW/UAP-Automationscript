@@ -2,6 +2,7 @@ package com.capitaworld.config;
 
 
 import com.capitaworld.commonutil.Constants;
+import com.capitaworld.commonutil.DatabaseConnection;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.Augmenter;
@@ -43,7 +44,7 @@ public class Config {
     protected static String test_data_folder_path = null;
     protected static String screenshot_folder_path = null;
     public static String currentTest;
-//    DatabaseConnection dbConnection=null;
+    DatabaseConnection dbConnection=null;
     protected static Connection connection;
 
     private String hostaddress;
@@ -84,7 +85,7 @@ public class Config {
         System.out.println(seleniumHubPort);
         targetBrowser = testContext.getCurrentXmlTest().getParameter("browser");
         System.out.println(targetBrowser);
-//        connection=DatabaseConnection.getConnection(connection,environment);
+        connection= DatabaseConnection.getConnection(connection,environment);
     }
 
     /**
@@ -316,6 +317,19 @@ public class Config {
          * For Local
          * ../test-output ----http://192.168.1.121/qms/screenshots_Jenkins_Trunk/
          */
+    }
+
+    /**
+     * to Print Message in console
+     *
+     * @param steplog
+     * @param message
+     * @return
+     */
+    public static int log(int steplog, String message) {
+        Reporter.log("<br />Step " + steplog + ":-" + message);
+        steplog++;
+        return steplog;
     }
 
 }

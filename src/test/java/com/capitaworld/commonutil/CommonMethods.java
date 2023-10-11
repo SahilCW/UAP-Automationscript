@@ -2,24 +2,28 @@ package com.capitaworld.commonutil;
 
 
 import com.capitaworld.config.Config;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Reporter;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -31,9 +35,9 @@ public class CommonMethods extends Config {
         try {
 
             if(testUrl.equalsIgnoreCase("qa")) {
-                value.add("jdbc:oracle:thin:@oracle-db-qa.c1tey9r6gnam.ap-south-1.rds.amazonaws.com:1521?autoReconnect=true&useSSL=false");
-                value.add("admin");
-                value.add("DyyyK]h9");
+                value.add("jdbc:postgresql://10.48.163.198:5432/sugam_udyam_assist_portal?autoReconnect=true&useSSL=false");
+                value.add("postgres");
+                value.add("9g&8gwvsQT84JP");
 
             }else if(testUrl.equalsIgnoreCase("uat")) {
 
@@ -625,6 +629,77 @@ public class CommonMethods extends Config {
         ele.click();
     }
 
-}
-	
+    public static String returnStringforMail(int pass, int fail, int total, int skip) {
+        String str = " <HTML> <BODY> <div style=\"width:100%;text-align:center;background-color:#438EB9;font-weight:bold;color:#fff;font-size:15;\"> <label>Automation Test Report</label>  </div>  <br/> Hi Team,<br/> <br/> <br/> PFA for Automation Test Report. Download it and Open it in Browser. <br/> <br/> <table style=\"border-spacing: 0;border-collapse: collapse;\"> <tr>  <th style=\"border: 1px solid black !important;padding:2px;text-align:left;\">Passed</th>"
+                + "<td style=\"border: 1px solid black !important;padding:2px;\">" + pass
+                + "</td> <th style=\"border: 1px solid black !important;padding:2px;text-align:left;\">Failed</th> <td style=\"border: 1px solid black !important;padding:2px;\">"
+                + fail
+                + "</td><th style=\"border: 1px solid black !important;padding:2px;text-align:left;\">Skipped</th><td style=\"border: 1px solid black !important;padding:2px;\">"
+                + skip
+                + "</td></tr><tr><tr><th style=\"border: 1px solid black !important;padding:2px;text-align:left;\">Total </th> <td style=\"border: 1px solid black !important;padding:2px;\" colspan=\"5\">"
+                + total + "</td></tr><tr></table>" + "<br/><br/> Warm Regards, <br/> OPL QA Team<br/><br/>"
+                + "<small>This eMail is automatically triggered by the <b>Online PSB Loans - Automation Scripts</b>. If you feel it has been received in error, please contact your IT team.</small>"
+                + "</BODY></HTML>";
 
+        return str;
+
+    }
+
+    public static String getCurrentdateString() {
+
+        Date myDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMM");
+        String myDateString = sdf.format(myDate);
+        return myDateString;
+    }
+
+    private static final String ALGORITHM = "AES";
+    private static final String KEY = "C@p!ta@W0rld#U$d";
+    public static String decriptWithKey(String encryptedText) {
+        // do some decryption
+        try {
+            byte[] keyBytes = Arrays.copyOf(KEY.getBytes("ASCII"), 16);
+
+            SecretKey key = new SecretKeySpec(keyBytes, ALGORITHM);
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, key);
+
+            // byte[] ciphertextBytes = cipher.doFinal(cleartext);
+
+            return new String(cipher.doFinal(Hex.decodeHex(encryptedText.toCharArray())));
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public static String encryptionWithKey(String plainText) {
+        // do some encryption
+        try {
+            byte[] keyBytes = Arrays.copyOf(KEY.getBytes("ASCII"), 16);
+
+            SecretKey key = new SecretKeySpec(keyBytes, ALGORITHM);
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+
+            byte[] cleartext = plainText.getBytes("UTF-8");
+            byte[] ciphertextBytes = cipher.doFinal(cleartext);
+
+            return new String(Hex.encodeHex(ciphertextBytes));
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public static List<String> usingSubstringMethod(String text, int n) {
+        List<String> results = new ArrayList<>();
+        int length = text.length();
+
+        for (int i = 0; i < length; i += n) {
+            results.add(text.substring(i, Math.min(length, i + n)));
+        }
+
+        return results;
+    }
+
+
+}

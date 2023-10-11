@@ -37,8 +37,8 @@ public class DataUtil {
 
     private void addUserDetails()
     {
-        details.put(Constants.User.TESTCASE_LOGIN_USER, new MethodDetails("UAP_USER_LOGIN_001", Constants.AUDITTRAIL_PRESENT));
-        details.put(Constants.User.BANK_DA_USER_LOGIN, new logInProxy("indian.bo@qa.com","admin@123"));
+        details.put(Constants.User.TESTCASE_1_VALIDATION_CHECK, new MethodDetails("UAP_VALIDATUIN_CHECK_001", Constants.AUDITTRAIL_PRESENT));
+        details.put(Constants.User.BANK_DA_USER_LOGIN, new logInProxy("prakash.shrimali@onlinepsbloans.com","admin@123"));
 
 
     }

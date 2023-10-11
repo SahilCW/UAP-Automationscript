@@ -28,7 +28,7 @@ public class DatabaseConnection {
     {
         Connection con=null;
         try {
-            Class.forName("jdbc:oracle:thin:@oracle-db-uat.c1tey9r6gnam.ap-south-1.rds.amazonaws.com:1521:orcl");
+            Class.forName("org.postgresql.Driver");
             //List<String>dbconDetails=getPropertyValue();
             con = DriverManager.getConnection(db_name,user_name, password);
         } catch (Exception e) {
